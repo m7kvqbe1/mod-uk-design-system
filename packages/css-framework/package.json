@@ -23,7 +23,7 @@
     "src"
   ],
   "scripts": {
-    "build": "sass --style=compressed index.scss dist/styles.css",
+    "build": "style-dictionary build && sass --style=compressed index.scss dist/styles.css",
     "lint": "stylelint ./index.scss",
     "lint-staged": "lint-staged",
     "watch": "sass --watch index.scss dist/styles.css",
@@ -35,6 +35,7 @@
   "devDependencies": {
     "lint-staged": "^9.5.0",
     "sass": "^1.25.0",
+    "style-dictionary": "^2.10.1",
     "stylelint": "^13.0.0",
     "stylelint-junit-formatter": "^0.2.2"
   }
