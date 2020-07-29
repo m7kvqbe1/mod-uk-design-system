@@ -1,7 +1,10 @@
 /* stylelint-disable */
 @use "sass:map";
 @use "../config";
-@use "../vars";
+@use "../variables" as vars;
+
+$_breakpoints: map-get(vars.$tokens, 'breakpoint');
+$_spacing: map-get(vars.$tokens, 'spacing');
 
 // Sizing Utility
 $axes: (
@@ -11,8 +14,8 @@ $axes: (
 
 // Build Spacing Utility Classes
 
-@each $_breakpoint, $_breakpoint-val in vars.$breakpoints {
-  @each $_size, $_multiplier in vars.$spacing {
+@each $_breakpoint, $_breakpoint-val in $_breakpoints {
+  @each $_size, $_multiplier in $_spacing {
     @each $_axis, $_axis-shortname in $axes {
       @if $_breakpoint == 'root' {
         .#{config.$utility-ns}#{$_axis-shortname}-#{$_size} {

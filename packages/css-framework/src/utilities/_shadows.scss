@@ -1,13 +1,16 @@
 @use "sass:map";
 @use "../config";
-@use "../vars";
+@use "../variables" as vars;
+
+$_breakpoints: map-get(vars.$tokens, 'breakpoint');
+$_shadows: map-get(vars.$tokens, 'shadow');
 
 /* stylelint-disable */
 // Shadows Utility
 
 
-@each $_breakpoint, $_breakpoint-val in vars.$breakpoints {
-  @each $_size, $_shadow in vars.$shadows {
+@each $_breakpoint, $_breakpoint-val in $_breakpoints {
+  @each $_size, $_shadow in $_shadows {
     @if $_breakpoint == 'root' {
       .#{config.$utility-ns}-shadow-#{$_size} {
         box-shadow: #{$_shadow} !important;

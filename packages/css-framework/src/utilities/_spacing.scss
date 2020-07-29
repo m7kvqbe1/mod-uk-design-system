@@ -1,14 +1,17 @@
 /* stylelint-disable */
 @use "sass:map";
 @use "../config";
-@use "../vars";
+@use "../variables" as vars;
 
-$rules: (
+$_breakpoints: map-get(vars.$tokens, 'breakpoint');
+$_spacing: map-get(vars.$tokens, 'spacing');
+
+$_rules: (
   margin: m,
   padding: p
 );
 
-$sides: (
+$_sides: (
   top: t,
   right: r,
   bottom: b,
@@ -16,9 +19,9 @@ $sides: (
 );
 
 // Build Spacing Utility Classes
-@each $_breakpoint, $_breakpoint-val in vars.$breakpoints {
-  @each $_size, $_multiplier in vars.$spacing {
-    @each $_rule, $_rule-shortname in $rules {
+@each $_breakpoint, $_breakpoint-val in $_breakpoints {
+  @each $_size, $_multiplier in $_spacing {
+    @each $_rule, $_rule-shortname in $_rules {
 
       @if $_breakpoint == 'root' {
         .#{config.$utility-ns}#{$_rule-shortname}-#{$_size} {
@@ -33,8 +36,8 @@ $sides: (
       }
 
     }
-    @each $_property, $_shortname in $sides {
-      @each $_rule, $_rule-shortname in $rules {
+    @each $_property, $_shortname in $_sides {
+      @each $_rule, $_rule-shortname in $_rules {
 
         @if $_breakpoint == 'root' {
           .#{config.$utility-ns}#{$_rule-shortname}#{$_shortname}-#{$_size} {

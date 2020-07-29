@@ -1,6 +1,8 @@
 @use "sass:map";
-@use "../vars";
 @use "../config";
+@use "../variables" as vars;
+
+$_breakpoints: map-get(vars.$tokens, 'breakpoint');
 
 /* stylelint-disable */
 @mixin flexSharedStyles {
@@ -57,7 +59,7 @@
   }
 }
 
-@each $_breakpoint, $_breakpoint-val in vars.$breakpoints {
+@each $_breakpoint, $_breakpoint-val in $_breakpoints {
   @if $_breakpoint == 'root' {
     .#{config.$utility-ns}f {
       @include flexSharedStyles;

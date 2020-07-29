@@ -4,17 +4,19 @@
 
 *****************************************************/
 @use "sass:map";
-@use "../vars";
+@use "../variables" as vars;
 @use "../config";
 @use "../abstracts/mixins" as *;
 @use "../abstracts/functions/map-deep-get" as *;
 
+$_breakpoints: map-get(vars.$tokens, 'breakpoint');
+
 // Local variable to check loop position
 $x: 0;
 html {
-  @each $_bp, $_baseFontSize in vars.$breakpoints {
-    $_fontSize: map-deep-get(vars.$breakpoints, $_bp, "baseFontSize");
-    $_width: #{map-deep-get(vars.$breakpoints, $_bp, "breakpoint")};
+  @each $_bp, $_baseFontSize in $_breakpoints {
+    $_fontSize: map-deep-get($_breakpoints, $_bp, "baseFontSize");
+    $_width: #{map-deep-get($_breakpoints, $_bp, "breakpoint")};
     @if $x == 0 {
       font-size: $_fontSize;
     }

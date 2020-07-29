@@ -1,7 +1,10 @@
 /* stylelint-disable */
 @use "sass:map";
 @use "../config";
-@use "../vars";
+@use "../variables" as vars;
+
+$_breakpoints: map-get(vars.$tokens, 'breakpoint');
+$_typography: map-get(vars.$tokens, 'typography');
 
 /**************************************************************************
 
@@ -14,8 +17,8 @@
 
 
 
-@each $_breakpoint, $_breakpoint-val in vars.$breakpoints {
-  @each $_shortname, $_value in vars.$typography {
+@each $_breakpoint, $_breakpoint-val in $_breakpoints {
+  @each $_shortname, $_value in $_typography {
     @if $_breakpoint == 'root' {
       .#{config.$utility-ns}text-#{$_shortname} {
         font-size: $_value !important;
@@ -50,7 +53,7 @@
   }
 }
 
-@each $_breakpoint, $_breakpoint-val in vars.$breakpoints {
+@each $_breakpoint, $_breakpoint-val in $_breakpoints {
   @if $_breakpoint == 'root' {
     .#{config.$utility-ns}text {
       @include textSharedStyles;

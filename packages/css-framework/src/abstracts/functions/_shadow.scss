@@ -1,9 +1,11 @@
 @use "sass:map";
-@use "../../vars";
+@use "../../variables" as vars;
+
+$_shadows: map-get(vars.$tokens, 'shadow');
 
 @function shadow($size) {
-  @if map.has-key(vars.$shadows, $size) {
-    @return unquote(map.get(vars.$shadows, $size));
+  @if map.has-key($_shadows, $size) {
+    @return map.get($_shadows, $size);
   }
 
   @else {

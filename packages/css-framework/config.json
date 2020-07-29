@@ -3,11 +3,19 @@
   "platforms": {
     "scss": {
       "transformGroup": "scss",
-      "buildPath": "build/",
+      "buildPath": "src/",
       "files": [{
-        "destination": "scss/_variables.scss",
+        "destination": "_variables.scss",
         "format": "scss/map-deep",
         "mapName": "tokens"
+      }]
+    },
+    "js": {
+      "transforms": ["name/cti/constant"],
+      "buildPath": "dist/",
+      "files": [{
+        "format": "javascript/es6",
+        "destination": "constants.js"
       }]
     }
   }
