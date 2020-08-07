@@ -143,6 +143,7 @@
     "@types/react-responsive": "^8.0.2",
     "@types/react-toast-notifications": "^2.4.0",
     "@types/styled-components": "^5.1.2",
+    "@types/styled-theming": "^2.2.5",
     "classnames": "^2.2.6",
     "date-fns": "^2.9.0",
     "formik": "^2.1.2",
