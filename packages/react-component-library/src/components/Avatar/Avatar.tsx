@@ -1,5 +1,7 @@
 import classNames from 'classnames'
 import React from 'react'
+import { styled } from 'styled-components'
+import { theme } from 'styled-theming'
 
 import { AVATAR_VARIANT } from '.'
 

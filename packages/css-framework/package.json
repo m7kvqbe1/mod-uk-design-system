@@ -23,7 +23,7 @@
     "src"
   ],
   "scripts": {
-    "build": "style-dictionary build && sass --style=compressed index.scss dist/styles.css && sass --style=compressed utilities.scss dist/utilities.css",
+    "build": "style-dictionary build && sass --style=compressed index.scss dist/styles.css && sass --style=compressed utilities.scss dist/utilities.css && sass --style=compressed base.scss dist/base.css",
     "lint": "stylelint ./index.scss",
     "lint-staged": "lint-staged",
     "watch": "sass --watch index.scss dist/styles.css",
