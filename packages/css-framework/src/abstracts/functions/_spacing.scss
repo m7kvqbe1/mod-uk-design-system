@@ -7,13 +7,11 @@
 
 **************************************************************************/
 @use "sass:map";
-@use "../../variables" as vars;
-
-$_spacing: map-get(vars.$tokens, 'spacing');
+@use "../../vars";
 
 @function spacing($size) {
-  @if map.has-key($_spacing, $size) {
-    @return map.get($_spacing, $size);
+  @if map.has-key(vars.$spacing, $size) {
+    @return map.get(vars.$spacing, $size);
   }
 
   @else {

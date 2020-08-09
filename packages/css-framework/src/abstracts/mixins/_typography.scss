@@ -8,13 +8,11 @@
 **************************************************************************/
 
 @use "sass:map";
-@use "../../variables" as vars;
-
-$_typography: map-get(vars.$tokens, 'typography');
+@use "../../vars";
 
 @mixin font-size($size) {
-  @if map.has-key($_typography, $size) {
-    font-size: map.get($_typography, $size);
+  @if map.has-key(vars.$typography, $size) {
+    font-size: map.get(vars.$typography, $size);
   }
 
   @else {

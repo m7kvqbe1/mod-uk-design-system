@@ -1,10 +1,10 @@
 /* stylelint-disable */
 @use "sass:map";
 @use "../config";
-@use "../variables" as vars;
+@use "../vars";
 
-$_breakpoints: map-get(vars.$tokens, 'breakpoint');
-$_typography: map-get(vars.$tokens, 'typography');
+@if not (config.$disable-utility-all) {
+  @if not (config.$disable-utility-typography) {
 
 /**************************************************************************
 
@@ -17,23 +17,24 @@ $_typography: map-get(vars.$tokens, 'typography');
 
 
 
-@each $_breakpoint, $_breakpoint-val in $_breakpoints {
-  @each $_shortname, $_value in $_typography {
-    @if $_breakpoint == 'root' {
-      .#{config.$utility-ns}text-#{$_shortname} {
-        font-size: $_value !important;
-      }
-    } @else {
-      @media only screen and (min-width: map.get($_breakpoint-val, 'breakpoint')) {
-        .#{$_breakpoint}\:#{config.$utility-ns}text-#{$_shortname} {
-          font-size: $_value !important;
+    @each $_breakpoint, $_breakpoint-val in vars.$breakpoints {
+      @each $_shortname, $_value in vars.$typography {
+        @if $_breakpoint == 'root' {
+          .#{config.$utility-ns}text-#{$_shortname} {
+            font-size: $_value !important;
+          }
+        } @else {
+          @media only screen and (min-width: map.get($_breakpoint-val, 'breakpoint')) {
+            .#{$_breakpoint}\:#{config.$utility-ns}text-#{$_shortname} {
+              font-size: $_value !important;
+            }
+          }
         }
       }
     }
+
   }
 }
-
-
 
 /**************************************************************************
 
@@ -41,27 +42,31 @@ $_typography: map-get(vars.$tokens, 'typography');
 
 **************************************************************************/
 
-@mixin textSharedStyles {
-  &-left {
-    text-align: left !important;
-  }
-  &-center {
-    text-align: center !important;
-  }
-  &-right {
-    text-align: right !important;
-  }
-}
-
-@each $_breakpoint, $_breakpoint-val in $_breakpoints {
-  @if $_breakpoint == 'root' {
-    .#{config.$utility-ns}text {
-      @include textSharedStyles;
+    @mixin textSharedStyles {
+      &-left {
+        text-align: left !important;
+      }
+      &-center {
+        text-align: center !important;
+      }
+      &-right {
+        text-align: right !important;
+      }
     }
-  } @else {
-    @media only screen and (min-width: map-get($_breakpoint-val, 'breakpoint')) {
-      .#{$_breakpoint}\:#{config.$utility-ns}text {
+
+@if not (config.$disable-utility-all) {
+  @if not (config.$disable-utility-typography) {
+    @each $_breakpoint, $_breakpoint-val in vars.$breakpoints {
+      @if $_breakpoint == 'root' {
+        .#{config.$utility-ns}text {
           @include textSharedStyles;
+        }
+      } @else {
+        @media only screen and (min-width: map-get($_breakpoint-val, 'breakpoint')) {
+          .#{$_breakpoint}\:#{config.$utility-ns}text {
+              @include textSharedStyles;
+          }
+        }
       }
     }
   }

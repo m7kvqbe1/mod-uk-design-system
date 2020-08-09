@@ -8,13 +8,11 @@
 **************************************************************************/
 
 @use "sass:map";
-@use "../../variables"as vars;
-
-$_shadows: map-get(vars.$tokens, 'shadow');
+@use "../../vars";
 
 @mixin shadow($size, $inset: "") {
-  @if map.has-key($_shadows, $size) {
-    box-shadow: #{$inset} #{map.get($_shadows, $size)};
+  @if map.has-key(vars.$shadows, $size) {
+    box-shadow: #{$inset} #{map.get(vars.$shadows, $size)};
   }
 
   @else {

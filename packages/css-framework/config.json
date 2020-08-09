@@ -12,10 +12,10 @@
     },
     "js": {
       "transforms": ["name/cti/constant"],
-      "buildPath": "dist/",
+      "buildPath": "./",
       "files": [{
         "format": "javascript/es6",
-        "destination": "constants.js"
+        "destination": "index.js"
       }]
     }
   }

@@ -1,24 +1,25 @@
 @use "sass:map";
 @use "../config";
-@use "../variables" as vars;
-
-$_breakpoints: map-get(vars.$tokens, 'breakpoint');
-$_shadows: map-get(vars.$tokens, 'shadow');
+@use "../vars";
 
 /* stylelint-disable */
 // Shadows Utility
 
+@if not (config.$disable-utility-all) {
+  @if not (config.$disable-utility-shadows) {
 
-@each $_breakpoint, $_breakpoint-val in $_breakpoints {
-  @each $_size, $_shadow in $_shadows {
-    @if $_breakpoint == 'root' {
-      .#{config.$utility-ns}-shadow-#{$_size} {
-        box-shadow: #{$_shadow} !important;
-      }
-    } @else {
-      @media only screen and (min-width: map.get($_breakpoint-val, 'breakpoint')) {
-        .#{$_breakpoint}\:#{config.$utility-ns}shadow-#{$_size} {
+    @each $_breakpoint, $_breakpoint-val in vars.$breakpoints {
+      @each $_size, $_shadow in vars.$shadows {
+        @if $_breakpoint == 'root' {
+          .#{config.$utility-ns}-shadow-#{$_size} {
             box-shadow: #{$_shadow} !important;
+          }
+        } @else {
+          @media only screen and (min-width: map.get($_breakpoint-val, 'breakpoint')) {
+            .#{$_breakpoint}\:#{config.$utility-ns}shadow-#{$_size} {
+                box-shadow: #{$_shadow} !important;
+            }
+          }
         }
       }
     }

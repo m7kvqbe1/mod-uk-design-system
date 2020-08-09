@@ -9,11 +9,33 @@ $font-size:   16px !default;
 $font-family: "lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
 $context:     "light" !default;
 
+// Contexts
+$breakpoints: () !default;
+$colors:      () !default;
+$spacing:     () !default;
+$shadows:     () !default;
+$typography:  () !default;
+$zindex:      () !default;
+
+
 // Utility Namespace
-$utility-ns: "rn_";
+$utility-ns: "rn_" !default;
 
-$content-width: 1280px;
-$animation-timing: 0.2s;
+$content-width:    1280px !default;
+$animation-timing: 0.2s   !default;
 
-// Dev helpers
-$dev-mode: true !default;
+// Feature toggling
+$disable-base-styles:        false !default;
+
+$disable-utility-all:        false !default;
+
+$disable-utility-clearfix:   false !default;
+$disable-utility-flex:       false !default;
+$disable-utility-position:   false !default;
+$disable-utility-shadows:    false !default;
+$disable-utility-sizing:     false !default;
+$disable-utility-spacing:    false !default;
+$disable-utility-typography: false !default;
+$disable-utility-visibility: false !default;
+
+

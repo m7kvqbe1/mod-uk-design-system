@@ -1,12 +1,19 @@
-// Globally setting Border box
-html {
-  box-sizing: border-box;
-}
+// Include the config so we can disable base styles
+@use "../config";
 
-* {
-  &,
-  &::before,
-  &::after {
+@if not (config.$disable-base-styles) {
+
+  // Globally setting Border box
+  html {
     box-sizing: border-box;
   }
+
+  * {
+    &,
+    &::before,
+    &::after {
+      box-sizing: border-box;
+    }
+  }
+
 }

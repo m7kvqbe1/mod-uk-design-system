@@ -24,10 +24,11 @@
 @forward "src/abstracts/mixins/zindex";
 
 // Base Styles
-
+// Will be disabled if $remove-base-styles is set to true
 @use "src/base/normalize";
 @use "src/base/box-sizing";
 @use "src/base/fonts";
+
 
 
 // Components

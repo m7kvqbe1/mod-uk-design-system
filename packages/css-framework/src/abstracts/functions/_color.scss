@@ -1,7 +1,5 @@
 @use "sass:map";
-@use "../../variables" as vars;
-
-$_colors: map-get(vars.$tokens, 'color');
+@use "../../vars";
 
 // Return Colour from map
 @function color($type, $shade) {
@@ -10,8 +8,8 @@ $_colors: map-get(vars.$tokens, 'color');
   $value: false;
 
   // Check if the specified type exists
-  @if map.has-key($_colors, $type) {
-    $_type: map.get($_colors, $type);
+  @if map.has-key(vars.$colors, $type) {
+    $_type: map.get(vars.$colors, $type);
     // Check if the specified shade exists
     @if map.has-key($_type, $shade) {
       $value: map.get($_type, $shade);

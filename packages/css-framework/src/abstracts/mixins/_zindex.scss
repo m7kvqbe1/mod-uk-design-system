@@ -8,13 +8,11 @@
 
 **************************************************************************/
 @use "sass:map";
-@use "../../variables" as vars;
-
-$_zindex: map-get(vars.$tokens, 'zindex');
+@use "../../vars";
 
 @mixin z-index($level, $subLevel: 0) {
-  @if map.has-key($_zindex, $level) {
-    $group: map.get($_zindex, $level);
+  @if map.has-key(vars.$zindex, $level) {
+    $group: map.get(vars.$zindex, $level);
     @if $subLevel < 1000 {
       z-index: $group + $subLevel;
     }

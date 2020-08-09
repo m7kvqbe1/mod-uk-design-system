@@ -4,75 +4,77 @@
 
 *****************************************************/
 @use "sass:map";
-@use "../variables" as vars;
+@use "../vars";
 @use "../config";
 @use "../abstracts/mixins" as *;
 @use "../abstracts/functions/map-deep-get" as *;
 
-$_breakpoints: map-get(vars.$tokens, 'breakpoint');
 
-// Local variable to check loop position
-$x: 0;
-html {
-  @each $_bp, $_baseFontSize in $_breakpoints {
-    $_fontSize: map-deep-get($_breakpoints, $_bp, "baseFontSize");
-    $_width: #{map-deep-get($_breakpoints, $_bp, "breakpoint")};
-    @if $x == 0 {
-      font-size: $_fontSize;
-    }
-    @else {
-      @media only screen and (min-width: #{$_width}) {
+@if not (config.$disable-base-styles) {
+
+  // Local variable to check loop position
+  $x: 0;
+  html {
+    @each $_bp, $_baseFontSize in vars.$breakpoints {
+      $_fontSize: map-deep-get(vars.$breakpoints, $_bp, "baseFontSize");
+      $_width: #{map-deep-get(vars.$breakpoints, $_bp, "breakpoint")};
+      @if $x == 0 {
         font-size: $_fontSize;
       }
+      @else {
+        @media only screen and (min-width: #{$_width}) {
+          font-size: $_fontSize;
+        }
+      }
+      $x: $x + 1;
     }
-    $x: $x + 1;
+
+    font-family: config.$font-family;
   }
 
-  font-family: config.$font-family;
-}
+  h1,
+  .rn-h1 {
+    margin: 0;
+    @include font-size("xxl");
+  }
 
-h1,
-.rn-h1 {
-  margin: 0;
-  @include font-size("xxl");
-}
+  h2,
+  .rn-h2 {
+    margin: 0;
+    @include font-size("xl");
+  }
 
-h2,
-.rn-h2 {
-  margin: 0;
-  @include font-size("xl");
-}
+  h3,
+  .rn-h3 {
+    margin: 0;
+    @include font-size("l");
+  }
 
-h3,
-.rn-h3 {
-  margin: 0;
-  @include font-size("l");
-}
+  h4,
+  .rn-h4 {
+    margin: 0;
+    @include font-size("m");
+  }
 
-h4,
-.rn-h4 {
-  margin: 0;
-  @include font-size("m");
-}
+  h5,
+  .rn-h5 {
+    margin: 0;
+    @include font-size("base");
+  }
 
-h5,
-.rn-h5 {
-  margin: 0;
-  @include font-size("base");
-}
-
-h6,
-.rn-h6 {
-  margin: 0;
-  @include font-size("s");
-}
+  h6,
+  .rn-h6 {
+    margin: 0;
+    @include font-size("s");
+  }
 
 
-// Ensure lists and paragraphs start at same default font size
+  // Ensure lists and paragraphs start at same default font size
 
-ol, ul, li,
-p, .rn-p {
-  margin: 0;
-  @include font-size("base");
-  line-height: 1.5;
+  ol, ul, li,
+  p, .rn-p {
+    margin: 0;
+    @include font-size("base");
+    line-height: 1.5;
+  }
 }
