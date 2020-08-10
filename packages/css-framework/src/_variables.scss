@@ -1,9 +1,10 @@
 
 /*
   Do not edit directly
-  Generated on Sun, 09 Aug 2020 12:53:40 GMT
+  Generated on Sun, 09 Aug 2020 14:42:04 GMT
 */
 
+$timing-default: 0.2s !default;
 $breakpoint-root-breakpoint: 0 !default;
 $breakpoint-root-base-font-size: 100% !default;
 $breakpoint-xs-breakpoint: 576px !default;
@@ -179,6 +180,9 @@ $zindex-footer: 4000 !default;
 $zindex-body: 0 !default;
 
 $tokens: (
+  'timing': (
+    'default': $timing-default
+  ),
   'breakpoint': (
     'root': (
       'breakpoint': $breakpoint-root-breakpoint,

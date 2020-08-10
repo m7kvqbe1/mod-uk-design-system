@@ -1,8 +1,9 @@
 /**
  * Do not edit directly
- * Generated on Sun, 09 Aug 2020 12:53:40 GMT
+ * Generated on Sun, 09 Aug 2020 14:42:04 GMT
  */
 
+export const TIMING_DEFAULT = "0.2s";
 export const BREAKPOINT_ROOT_BREAKPOINT = "0";
 export const BREAKPOINT_ROOT_BASE_FONT_SIZE = "100%";
 export const BREAKPOINT_XS_BREAKPOINT = "576px";
