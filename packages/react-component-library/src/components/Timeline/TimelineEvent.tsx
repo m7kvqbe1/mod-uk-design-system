@@ -191,16 +191,16 @@ export const TimelineEvent: React.FC<TimelineEventProps> = ({
   render,
   startDate,
 }) => {
-  const { drag, offsetPx } = useTimelineEvent(onMove)
   const {
     startsBeforeStart,
     startsAfterEnd,
     endsBeforeStart,
     endsAfterEnd,
-    // offset: offsetPx,
+    // offset,
     width: widthPx,
     maxWidth: maxWidthPx,
   } = useTimelinePosition(startDate, endDate)
+  const { drag, offsetPx } = useTimelineEvent(startDate, onMove)
 
   if (startsAfterEnd || endsBeforeStart) return null
 

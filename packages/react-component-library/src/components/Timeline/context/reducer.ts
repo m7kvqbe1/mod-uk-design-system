@@ -5,6 +5,7 @@ import {
   eachDayOfInterval,
   eachMonthOfInterval,
   eachWeekOfInterval,
+  differenceInCalendarDays,
 } from 'date-fns'
 import { padStart } from 'lodash'
 
@@ -97,19 +98,13 @@ function snapTo(position: number, unitSize: number) {
   return Math.round(position / unitSize) * unitSize
 }
 
-function setEventPosition(
-  state: TimelineState,
-  payload: TimelineActionSetEvenPositionPayload
-) {
-  const { eventPositions, grid, options } = state
-  const { id, left } = payload
+const timeOffset = (date: Date) => (1 / 24) * new Date(date).getHours()
 
-  return {
-    ...eventPositions,
-    [id]: left
-      ? grid.x[snapTo(left, options.unitWidth)]
-      : { px: '10px', value: 10 },
-  }
+function getOffset(startDate: Date, timelineStart: Date): number {
+  return (
+    differenceInCalendarDays(new Date(startDate), new Date(timelineStart)) +
+    timeOffset(startDate)
+  )
 }
 
 function getAllX() {
@@ -129,11 +124,32 @@ function getAllX() {
 }
 
 function loadGrid() {
-  console.log('loading grid')
-
-  return {
+  const grid = {
     x: getAllX(),
     y: {},
+  }
+
+  return {
+    ...grid,
+  }
+}
+
+function setEventPosition(
+  state: TimelineState,
+  payload: TimelineActionSetEvenPositionPayload
+) {
+  const { eventPositions, options, days } = state
+  const { id, left } = payload
+
+  const grid = state.grid || loadGrid() // todo: this is dirty
+
+  const newLeft =
+    left || getOffset(payload.startDate, days[0].date) * options.unitWidth
+
+  return {
+    ...eventPositions,
+    ...grid,
+    [id]: grid.x[snapTo(newLeft, options.unitWidth)],
   }
 }
 

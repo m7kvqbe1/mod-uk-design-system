@@ -1,8 +1,9 @@
 import React from 'react'
 import { action } from '@storybook/addon-actions'
-import { format } from 'date-fns'
+import { addDays, format } from 'date-fns'
 import { Meta } from '@storybook/react/types-6-0'
 import { ColorDanger500 } from '@royalnavy/design-tokens'
+import { random, range } from 'lodash'
 
 import {
   Timeline,
@@ -622,7 +623,6 @@ export const WithCustomRange = () => {
 }
 WithCustomRange.storyName = 'With custom range'
 
-
 export const NoVisibleCells = () => (
   <Timeline startDate={new Date(2020, 0, 1)} today={new Date(2020, 0, 1, 12)}>
     <TimelineTodayMarker />
@@ -645,3 +645,71 @@ export const NoVisibleCells = () => (
 )
 NoVisibleCells.parameters = disableScrollableRegionFocusableRule
 NoVisibleCells.storyName = 'No visible cells'
+
+export const WithLotsOfData = () => {
+  function getEvent(startDate: Date, endDate: Date, title: string) {
+    const barColors = [
+      'blue',
+      'deeppink',
+      'lightcoral',
+      'lightsalmon',
+    ]
+
+    return (
+      <TimelineEvent
+        startDate={startDate}
+        endDate={endDate}
+        onMove={action('onMove')}
+        barColor={barColors[random(0, barColors.length - 1)]}
+      >
+        {title}
+      </TimelineEvent>
+    )
+  }
+
+  function getRow(rowNumber: number) {
+    const events = []
+    let currentDate = new Date(2020, 3, 1)
+    let i = 0
+
+    while (i < 20) {
+      const startDate = currentDate
+      const endDate = addDays(currentDate, random(1, 5))
+
+      events.push({
+        startDate,
+        endDate,
+        title: `Event ${rowNumber}_${i}`
+      })
+
+      currentDate = addDays(endDate, random(0, 2))
+
+      i += 1
+    }
+
+    return (
+      <TimelineRow name={`Row ${rowNumber}`}>
+        <TimelineEvents>
+          {events.map((e) => getEvent(e.startDate, e.endDate, e.title))}
+        </TimelineEvents>
+      </TimelineRow>
+    )
+  }
+
+  return (
+    <Timeline
+      startDate={new Date(2020, 3, 1)}
+      today={new Date(2020, 3, 15, 12)}
+    >
+      <TimelineTodayMarker />
+      <TimelineMonths />
+      <TimelineWeeks />
+      <TimelineDays />
+      <TimelineRows>
+        {range(100).map(n => getRow(n))}
+      </TimelineRows>
+    </Timeline>
+  )
+}
+WithLotsOfData.parameters = disableScrollableRegionFocusableRule
+WithLotsOfData.storyName = 'With lots of data'

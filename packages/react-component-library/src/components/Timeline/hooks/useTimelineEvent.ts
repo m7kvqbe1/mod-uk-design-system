@@ -6,7 +6,10 @@ import { getId } from '../../../helpers'
 import { TimelineContext } from '../context'
 import { TIMELINE_ACTIONS } from '..'
 
-export function useTimelineEvent(onMove: (eventPosition: any) => void) {
+export function useTimelineEvent(
+  startDate: Date,
+  onMove: (eventPosition: any) => void
+) {
   const [id, setId] = useState<string>()
   const [eventPosition, setEventPosition] = useState()
   const {
@@ -17,14 +20,12 @@ export function useTimelineEvent(onMove: (eventPosition: any) => void) {
   useEffect(() => {
     const newId = getId('draggable-event')
     setId(newId)
-  }, [])
 
-  if (!eventPositions[id]) {
     dispatch({
       type: TIMELINE_ACTIONS.SET_EVENT_POSITION,
-      payload: { id },
+      payload: { id: newId, startDate },
     })
-  }
+  }, [])
 
   useEffect(() => {
     if (eventPosition && onMove) {

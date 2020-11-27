@@ -47,7 +47,11 @@ export const TIMELINE_ACTIONS = {
   SET_EVENT_POSITION: 'SET_EVENT_POSITION',
 } as const
 
-export type TimelineActionSetEvenPositionPayload = { id: string; left?: number }
+export type TimelineActionSetEvenPositionPayload = {
+  id: string
+  left?: number
+  startDate: Date
+}
 
 export type TimelineAction =
   | { type: typeof TIMELINE_ACTIONS.GET_NEXT }
