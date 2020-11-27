@@ -1,8 +1,8 @@
 import { Dispatch } from 'react'
 
 export type TimelineOptions = {
-  dayWidth: number,
-  hoursBlockSize: number,
+  dayWidth: number
+  hoursBlockSize: number
   rangeInMonths: number
   unitWidth: number
 }
@@ -36,16 +36,27 @@ export type TimelineState = {
   days: TimelineDay[]
   hours: TimelineHour[]
   options: TimelineOptions
+  eventPositions: any
+  grid: any
 }
 
 export const TIMELINE_ACTIONS = {
   GET_NEXT: 'GET_NEXT',
   GET_PREV: 'GET_PREV',
+  LOAD_GRID: 'LOAD_GRID',
+  SET_EVENT_POSITION: 'SET_EVENT_POSITION',
 } as const
+
+export type TimelineActionSetEvenPositionPayload = { id: string; left?: number }
 
 export type TimelineAction =
   | { type: typeof TIMELINE_ACTIONS.GET_NEXT }
   | { type: typeof TIMELINE_ACTIONS.GET_PREV }
+  | { type: typeof TIMELINE_ACTIONS.LOAD_GRID }
+  | {
+      type: typeof TIMELINE_ACTIONS.SET_EVENT_POSITION
+      payload: TimelineActionSetEvenPositionPayload
+    }
 
 export interface TimelineContextDefault {
   hasSide: boolean

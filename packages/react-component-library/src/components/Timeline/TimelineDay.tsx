@@ -42,6 +42,8 @@ function renderDefault({ dayWidth, date }: { dayWidth: number; date: Date }) {
   return (
     <StyledTimelineDay
       data-testid="timeline-day"
+      data-type="day-column"
+      data-name={date.toISOString()}
       style={{
         width: `${dayWidth}px`,
       }}

@@ -1,4 +1,5 @@
 import React from 'react'
+import { action } from '@storybook/addon-actions'
 import { format } from 'date-fns'
 import { Meta } from '@storybook/react/types-6-0'
 import { ColorDanger500 } from '@royalnavy/design-tokens'
@@ -73,6 +74,7 @@ export const WithData = () => (
           <TimelineEvent
             startDate={new Date(2020, 3, 14, 12)}
             endDate={new Date(2020, 3, 18, 12)}
+            onMove={action('onMove')}
           >
             Event 1
           </TimelineEvent>
@@ -83,6 +85,7 @@ export const WithData = () => (
           <TimelineEvent
             startDate={new Date(2020, 3, 3)}
             endDate={new Date(2020, 3, 8)}
+            onMove={action('onMove')}
           >
             Event 2
           </TimelineEvent>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { format } from 'date-fns'
 import { selectors } from '@royalnavy/design-tokens'
@@ -7,7 +7,11 @@ import { isString } from 'lodash'
 import { ACCESSIBLE_DATE_FORMAT } from './constants'
 import { ComponentWithClass } from '../../common/ComponentWithClass'
 import { DATE_FORMAT } from '../../constants'
+import { getId } from '../../helpers'
 import { useTimelinePosition } from './hooks/useTimelinePosition'
+import { TimelineContext } from './context'
+import { TIMELINE_ACTIONS } from './context/types'
+import { useTimelineEvent } from './hooks/useTimelineEvent'
 
 export interface TimelineEventWithRenderContentProps
   extends ComponentWithClass {
@@ -22,6 +26,7 @@ export interface TimelineEventWithRenderContentProps
     maxWidthPx: string
   ) => React.ReactNode
   startDate: Date
+  onMove?: (eventPosition: any) => void
 }
 
 export interface TimelineEventWithChildrenProps extends ComponentWithClass {
@@ -30,6 +35,7 @@ export interface TimelineEventWithChildrenProps extends ComponentWithClass {
   endDate: Date
   render?: never
   startDate: Date
+  onMove?: (eventPosition: any) => void
 }
 
 export type TimelineEventProps =
@@ -49,6 +55,7 @@ const StyledTimelineEvent = styled.div`
   padding: ${spacing('2')} 0;
   overflow: visible;
   z-index: ${zIndex('body', 2)};
+  cursor: pointer;
 `
 
 const StyledEventTitle = styled.span`
@@ -180,15 +187,17 @@ export const TimelineEvent: React.FC<TimelineEventProps> = ({
   barColor,
   children,
   endDate,
+  onMove,
   render,
   startDate,
 }) => {
+  const { drag, offsetPx } = useTimelineEvent(onMove)
   const {
     startsBeforeStart,
     startsAfterEnd,
     endsBeforeStart,
     endsAfterEnd,
-    offset: offsetPx,
+    // offset: offsetPx,
     width: widthPx,
     maxWidth: maxWidthPx,
   } = useTimelinePosition(startDate, endDate)
@@ -196,7 +205,7 @@ export const TimelineEvent: React.FC<TimelineEventProps> = ({
   if (startsAfterEnd || endsBeforeStart) return null
 
   const event = render
-    ? render(startDate, endDate, widthPx, offsetPx, maxWidthPx)
+    ? render(startDate, endDate, widthPx, null, maxWidthPx)
     : renderDefault({
         barColor,
         children,
@@ -215,6 +224,7 @@ export const TimelineEvent: React.FC<TimelineEventProps> = ({
       {React.cloneElement(event as React.ReactElement, {
         title,
         'aria-label': title,
+        ref: drag,
         role: 'cell',
       })}
     </div>

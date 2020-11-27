@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import classNames from 'classnames'
 import { differenceInDays, endOfWeek, max, min } from 'date-fns'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 import { ComponentWithClass } from '../../common/ComponentWithClass'
 import { TimelineNoData } from './TimelineNoData'
@@ -9,11 +11,14 @@ import { TimelineRowProps } from '.'
 import { TimelineContext } from './context'
 import { withKey } from '../../helpers'
 import { formatPx, isOdd } from './helpers'
+
 import {
   WEEK_START,
   TIMELINE_BG_COLOR,
   TIMELINE_ALT_BG_COLOR,
 } from './constants'
+import { TimelineDropContainer } from './TimelineDropContainer'
+import { TimelineMain } from './TimelineMain'
 
 type TimelineRowsChildrenType =
   | React.ReactElement<TimelineRowProps>
@@ -39,7 +44,7 @@ const StyledTimelineRowWeek = styled.div<StyledTimelineRowWeekProps>`
   display: inline-block;
   height: 100vh;
   background-color: ${({ isOddNumber }) =>
-    isOddNumber ?  TIMELINE_ALT_BG_COLOR : TIMELINE_BG_COLOR};
+    isOddNumber ? TIMELINE_ALT_BG_COLOR : TIMELINE_BG_COLOR};
   margin-left: ${({ marginLeft }) => marginLeft};
   width: ${({ width }) => width};
 `
@@ -93,68 +98,9 @@ export const TimelineRows: React.FC<TimelineRowsProps> = ({
   const mainClasses = classNames('timeline__main', className)
 
   return (
-    <>
-      {hasChildren && (
-        <TimelineContext.Consumer>
-          {({
-            state: {
-              weeks,
-              days,
-              options: { dayWidth },
-            },
-          }) => (
-            <StyledTimelineRowWeeksWrapper>
-              <StyledTimelineRowWeeks
-                role="presentation"
-                data-testid="timeline-columns"
-              >
-                {weeks.map(({ startDate }, index) => {
-                  const lastDateDisplayed = min([
-                    endOfWeek(startDate, { weekStartsOn: WEEK_START }),
-                    days[days.length - 1].date,
-                  ])
-                  const offsetInDays = differenceInDays(
-                    startDate,
-                    max([startDate, days[0].date])
-                  )
-                  const offsetPx = formatPx(dayWidth, offsetInDays)
-                  const widthPx = formatPx(
-                    dayWidth,
-                    differenceInDays(lastDateDisplayed, startDate) + 1
-                  )
-
-                  const isOddNumber = isOdd(index)
-
-                  const column = renderColumns
-                    ? renderColumns(index, isOddNumber, offsetPx, widthPx)
-                    : renderDefaultColumns(
-                        index,
-                        isOddNumber,
-                        offsetPx,
-                        widthPx
-                      )
-
-                  return withKey(
-                    column,
-                    'timeline-column',
-                    startDate.toString()
-                  )
-                })}
-              </StyledTimelineRowWeeks>
-            </StyledTimelineRowWeeksWrapper>
-          )}
-        </TimelineContext.Consumer>
-      )}
-
-      <StyledTimelineMain
-        className={mainClasses}
-        defaultStyles={!renderColumns}
-        role="rowgroup"
-        data-testid="timeline-rows"
-      >
-        {hasChildren ? children : <TimelineNoData />}
-      </StyledTimelineMain>
-    </>
+    <DndProvider backend={HTML5Backend}>
+      <TimelineMain renderColumns={renderColumns}>{children}</TimelineMain>
+    </DndProvider>
   )
 }
 

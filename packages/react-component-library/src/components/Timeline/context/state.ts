@@ -12,6 +12,7 @@ const initialState: TimelineState = {
   endDate: null,
   today: new Date(),
   weeks: [],
+  eventPositions: {},
 }
 
 function initialiseState(

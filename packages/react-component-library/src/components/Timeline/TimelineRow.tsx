@@ -86,6 +86,7 @@ export const TimelineRow: React.FC<TimelineRowProps> = ({
             <StyledRowHeader
               isHeader={isHeader}
               data-testid="timeline-row-header"
+              data-type={isHeader ? 'header-row' : 'event-row'}
               role="rowheader"
               aria-label={ariaLabel || name}
             >

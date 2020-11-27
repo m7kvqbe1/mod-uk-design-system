@@ -16,6 +16,7 @@ import {
   TimelineWeek,
   TimelineDay,
   TimelineHour,
+  TimelineActionSetEvenPositionPayload,
 } from './types'
 
 import { WEEK_START } from '../constants'
@@ -23,14 +24,12 @@ import { WEEK_START } from '../constants'
 const HOURS_IN_DAY = 24
 
 export function getMonths(start: Date, end: Date): TimelineMonth[] {
-  const months = eachMonthOfInterval({ start, end }).map(
-    (date) => {
-      return {
-        monthIndex: date.getMonth(),
-        startDate: date,
-      }
+  const months = eachMonthOfInterval({ start, end }).map((date) => {
+    return {
+      monthIndex: date.getMonth(),
+      startDate: date,
     }
-  )
+  })
 
   return months
 }
@@ -50,14 +49,12 @@ export function getWeeks(start: Date, end: Date): TimelineWeek[] {
 }
 
 export function getDays(start: Date, end: Date): TimelineDay[] {
-  const days = eachDayOfInterval({ start, end }).map(
-    (date) => {
-      return {
-        dayIndex: date.getDate() - 1,
-        date,
-      }
+  const days = eachDayOfInterval({ start, end }).map((date) => {
+    return {
+      dayIndex: date.getDate() - 1,
+      date,
     }
-  )
+  })
 
   return days
 }
@@ -96,6 +93,50 @@ export function buildCalendar(
   }
 }
 
+function snapTo(position: number, unitSize: number) {
+  return Math.round(position / unitSize) * unitSize
+}
+
+function setEventPosition(
+  state: TimelineState,
+  payload: TimelineActionSetEvenPositionPayload
+) {
+  const { eventPositions, grid, options } = state
+  const { id, left } = payload
+
+  return {
+    ...eventPositions,
+    [id]: left
+      ? grid.x[snapTo(left, options.unitWidth)]
+      : { px: '10px', value: 10 },
+  }
+}
+
+function getAllX() {
+  const days = document.querySelectorAll('[data-type="day-column"]')
+
+  return Array.from(days).reduce((accumulator, day) => {
+    const { x } = (day as HTMLElement).getBoundingClientRect()
+    return {
+      ...accumulator,
+      [x]: {
+        px: `${x}px`,
+        name: day.getAttribute('data-name'),
+        value: x,
+      },
+    }
+  }, {})
+}
+
+function loadGrid() {
+  console.log('loading grid')
+
+  return {
+    x: getAllX(),
+    y: {},
+  }
+}
+
 export function reducer(
   state: TimelineState,
   action: TimelineAction
@@ -129,6 +170,16 @@ export function reducer(
           endOfMonth(subMonths(lastMonthOfRange, range)),
           hoursBlockSize
         ),
+      }
+    case TIMELINE_ACTIONS.LOAD_GRID:
+      return {
+        ...state,
+        grid: loadGrid(),
+      }
+    case TIMELINE_ACTIONS.SET_EVENT_POSITION:
+      return {
+        ...state,
+        eventPositions: setEventPosition(state, action.payload),
       }
     default:
       throw new Error('Unknown reducer action')
