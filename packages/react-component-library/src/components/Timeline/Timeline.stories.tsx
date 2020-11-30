@@ -706,7 +706,7 @@ export const WithLotsOfData = () => {
       <TimelineWeeks />
       <TimelineDays />
       <TimelineRows>
-        {range(100).map(n => getRow(n))}
+        {range(10).map(n => getRow(n))}
       </TimelineRows>
     </Timeline>
   )
