@@ -11,6 +11,7 @@ import { StyledInputWrapper } from './partials/StyledInputWrapper'
 import { StyledLabel } from './partials/StyledLabel'
 import { StyledOuterWrapper } from './partials/StyledOuterWrapper'
 import { StyledTextInput } from './partials/StyledTextInput'
+import { useFieldError } from '../Form/useFieldError'
 
 type TextInputType =
   | 'color'
@@ -117,7 +118,10 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
   const { committedValue, hasValue, onValueChange } = useInputValue(value)
   const hasLabel = label && label.length
 
-  const [characterCount, setCharacterCount] = useState<number>(0)
+  const { addFieldError, removeFieldError } = useFieldError()
+
+  const [remainingCharacters, setRemainingCharacters] =
+    useState<number>(maxLength)
 
   return (
     <StyledTextInput
@@ -146,7 +150,15 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
             onBlur={onLocalBlur}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               onValueChange(e)
-              setCharacterCount(e.currentTarget.value.length)
+              const newRemainingCharacters =
+                maxLength - e.currentTarget.value.length
+              setRemainingCharacters(newRemainingCharacters)
+
+              if (newRemainingCharacters < 0) {
+                addFieldError(name, 'something bad')
+              } else {
+                removeFieldError(name)
+              }
 
               if (onChange) {
                 onChange(e)
@@ -164,7 +176,7 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
         )}
       </StyledOuterWrapper>
       {footnote && <small>{footnote}</small>}
-      {maxLength && <div>{maxLength - characterCount}</div>}
+      {maxLength && <div>{remainingCharacters}</div>}
     </StyledTextInput>
   )
 }

@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 
 import { ComponentWithClass } from '../../common/ComponentWithClass'
+import FormContext, { ErrorsType } from '../Form/FormContext'
+import { ErrorSummaryItem } from './ErrorSummaryItem'
 
 export interface ComponentNameProps extends ComponentWithClass {
   prop?: boolean
@@ -13,14 +15,28 @@ const StyledErrorSummary = styled.div`
   margin: 10px;
 `
 
+function getErrorSummaryItems(errors: ErrorsType) {
+  const errorSummaryItems = Object.keys(errors || {}).map((key) => {
+    return <ErrorSummaryItem>{key} has an error</ErrorSummaryItem>
+  })
+
+  return errorSummaryItems.length ? errorSummaryItems : []
+}
+
 export const ErrorSummary: React.FC<ComponentNameProps> = ({
   children,
   prop,
-}) => (
-  <StyledErrorSummary>
-    <p>There is {React.Children.count(children)} error</p>
-    <ul>{children}</ul>
-  </StyledErrorSummary>
-)
+}) => {
+  const { errors } = useContext(FormContext)
+
+  const errorSummary = [...[children], ...getErrorSummaryItems(errors)]
+
+  return (
+    <StyledErrorSummary>
+      <p>There is {React.Children.count(errorSummary)} error</p>
+      <ul>{errorSummary}</ul>
+    </StyledErrorSummary>
+  )
+}
 
 ErrorSummary.displayName = 'ErrorSummary'

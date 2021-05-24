@@ -1,7 +1,7 @@
 import React from 'react'
 import { Story, Meta } from '@storybook/react/types-6-0'
 import { action } from '@storybook/addon-actions'
-import { Field, Formik, Form } from 'formik'
+import { Field, Formik } from 'formik'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 
@@ -14,6 +14,7 @@ import { FormRow } from '../FormRow/FormRow'
 import { FormColumn } from '../FormColumn/FormColumn'
 import { ErrorSummary } from '../ErrorSummary/ErrorSummary'
 import { ErrorSummaryItem } from '../ErrorSummary/ErrorSummaryItem'
+import { Form } from '../Form/Form'
 
 export default {
   component: TextInput,
@@ -71,41 +72,41 @@ export const WithEndAdornment: Story<TextInputProps> = (props) => (
 
 WithEndAdornment.storyName = 'With end adornment'
 
-export const WithFormik: Story<TextInputProps> = (props) => {
-  interface Data {
-    'text-input-formik': string
-  }
-
-  const initialValues: Data = {
-    'text-input-formik': '',
-  }
-
-  const validationSchema = yup.object().shape({
-    'text-input-formik': yup.string().required('Something went wrong!'),
-  })
-
-  const FormikTextInput = withFormik(TextInput)
-
-  return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={action('onSubmit')}
-    >
-      <Form>
-        <Field
-          name="text-input-formik"
-          label="Example label"
-          component={FormikTextInput}
-        />
-        <br />
-        <Button type="submit">Submit</Button>
-      </Form>
-    </Formik>
-  )
-}
-
-WithFormik.storyName = 'Formik'
+// export const WithFormik: Story<TextInputProps> = (props) => {
+//   interface Data {
+//     'text-input-formik': string
+//   }
+//
+//   const initialValues: Data = {
+//     'text-input-formik': '',
+//   }
+//
+//   const validationSchema = yup.object().shape({
+//     'text-input-formik': yup.string().required('Something went wrong!'),
+//   })
+//
+//   const FormikTextInput = withFormik(TextInput)
+//
+//   return (
+//     <Formik
+//       initialValues={initialValues}
+//       validationSchema={validationSchema}
+//       onSubmit={action('onSubmit')}
+//     >
+//       <Form>
+//         <Field
+//           name="text-input-formik"
+//           label="Example label"
+//           component={FormikTextInput}
+//         />
+//         <br />
+//         <Button type="submit">Submit</Button>
+//       </Form>
+//     </Formik>
+//   )
+// }
+//
+// WithFormik.storyName = 'Formik'
 
 export const Spike: Story<TextInputProps> = (props) => {
   const {
@@ -129,14 +130,14 @@ export const Spike: Story<TextInputProps> = (props) => {
   const errorSummaryItems = getErrorSummaryItems()
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       {errorSummaryItems && <ErrorSummary>{errorSummaryItems}</ErrorSummary>}
       <h1>Personal details</h1>
       <FormRow>
         <FormColumn>
           <TextInput
             label="First name"
-            maxLength={20}
+            maxLength={10}
             name="first-name"
             {...register('first-name')}
           />
@@ -221,7 +222,7 @@ export const Spike: Story<TextInputProps> = (props) => {
           <Button type="submit">Save details</Button>
         </FormColumn>
       </FormRow>
-    </form>
+    </Form>
   )
 }
 
