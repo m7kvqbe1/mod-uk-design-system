@@ -8,6 +8,7 @@ import { StyledInput } from './StyledInput'
 interface StyledTextInputProps {
   $hasFocus?: boolean
   $hasContent?: boolean
+  $isInvalid?: boolean
   $noLabel?: boolean
 }
 
@@ -31,6 +32,13 @@ export const StyledTextInput = styled.div<StyledTextInputProps>`
         border: 1px solid ${color('action', '600')};
         background: ${color('neutral', 'white')};
       }
+    `}
+
+  ${({ $isInvalid }) =>
+    $isInvalid &&
+    css`
+      border-color: red;
+      box-shadow: 0 0 0 1px red;
     `}
 
   &.is-invalid ${StyledOuterWrapper} {

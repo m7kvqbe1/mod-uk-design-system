@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 import { useFocus } from '../../hooks/useFocus'
@@ -40,6 +40,7 @@ export interface TextInputProps
    * Optional adornment to display to the right of the input value.
    */
   endAdornment?: React.ReactNode
+  error?: string
   /**
    * Optional text footnote to display below the component.
    */
@@ -56,6 +57,7 @@ export interface TextInputProps
    * Optional text label to display within the component.
    */
   label?: string
+  maxLength?: number
   /**
    * HTML `name` attribute to apply to the component.
    */
@@ -95,7 +97,9 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
     className = '',
     isDisabled = false,
     endAdornment,
+    error,
     value,
+    maxLength,
     name,
     onChange,
     onBlur,
@@ -113,11 +117,14 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
   const { committedValue, hasValue, onValueChange } = useInputValue(value)
   const hasLabel = label && label.length
 
+  const [characterCount, setCharacterCount] = useState<number>(0)
+
   return (
     <StyledTextInput
       className={className}
       $hasFocus={hasFocus}
       $hasContent={hasValue}
+      $isInvalid={!!error}
       $noLabel={!hasLabel}
       data-testid="text-input-container"
     >
@@ -139,6 +146,8 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
             onBlur={onLocalBlur}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               onValueChange(e)
+              setCharacterCount(e.currentTarget.value.length)
+
               if (onChange) {
                 onChange(e)
               }
@@ -155,6 +164,7 @@ export const TextInput: React.FC<TextInputProps> = (props) => {
         )}
       </StyledOuterWrapper>
       {footnote && <small>{footnote}</small>}
+      {maxLength && <div>{maxLength - characterCount}</div>}
     </StyledTextInput>
   )
 }

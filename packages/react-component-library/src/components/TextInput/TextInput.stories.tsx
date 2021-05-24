@@ -3,12 +3,17 @@ import { Story, Meta } from '@storybook/react/types-6-0'
 import { action } from '@storybook/addon-actions'
 import { Field, Formik, Form } from 'formik'
 import * as yup from 'yup'
+import { useForm } from 'react-hook-form'
 
 import { IconSearch } from '@royalnavy/icon-library'
 import { Button } from '../Button'
 import { TextInput, TextInputProps } from '.'
 
-import { withFormik } from '../../enhancers/withFormik'
+import { withFormik } from '../../enhancers'
+import { FormRow } from '../FormRow/FormRow'
+import { FormColumn } from '../FormColumn/FormColumn'
+import { ErrorSummary } from '../ErrorSummary/ErrorSummary'
+import { ErrorSummaryItem } from '../ErrorSummary/ErrorSummaryItem'
 
 export default {
   component: TextInput,
@@ -101,3 +106,123 @@ export const WithFormik: Story<TextInputProps> = (props) => {
 }
 
 WithFormik.storyName = 'Formik'
+
+export const Spike: Story<TextInputProps> = (props) => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm()
+  const onSubmit = (data: any) => console.log(data)
+
+  function getErrorSummaryItems() {
+    const errorSummaryItems = Object.keys(errors).map((key) => {
+      return <ErrorSummaryItem>{key} has an error</ErrorSummaryItem>
+    })
+
+    return errorSummaryItems.length ? errorSummaryItems : null
+  }
+
+  console.log('errors', errors)
+
+  const errorSummaryItems = getErrorSummaryItems()
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      {errorSummaryItems && <ErrorSummary>{errorSummaryItems}</ErrorSummary>}
+      <h1>Personal details</h1>
+      <FormRow>
+        <FormColumn>
+          <TextInput
+            label="First name"
+            maxLength={20}
+            name="first-name"
+            {...register('first-name')}
+          />
+        </FormColumn>
+        <FormColumn>
+          <TextInput
+            label="Last name"
+            name="last-name"
+            {...register('last-name')}
+          />
+        </FormColumn>
+      </FormRow>
+      <FormRow>
+        <FormColumn>
+          <TextInput
+            label="Email address"
+            name="email-address"
+            {...register('email-address')}
+          />
+        </FormColumn>
+        <FormColumn>
+          <TextInput
+            error={errors['id-number']}
+            isInvalid
+            label="ID number"
+            name="id-number"
+            {...register('id-number', { required: true })}
+          />
+        </FormColumn>
+      </FormRow>
+      <h1>Address details</h1>
+      <FormRow>
+        <FormColumn>
+          <fieldset>
+            <legend>Home address</legend>
+            <FormRow>
+              <FormColumn>
+                <TextInput label="Address line 1" name="home-1" />
+              </FormColumn>
+            </FormRow>
+            <FormRow>
+              <FormColumn>
+                <TextInput label="Address line 2" name="home-2" />
+              </FormColumn>
+            </FormRow>
+            <FormRow>
+              <FormColumn>
+                <TextInput label="City" name="home-city" />
+              </FormColumn>
+              <FormColumn>
+                <TextInput label="Postcode" name="home-postcode" />
+              </FormColumn>
+            </FormRow>
+          </fieldset>
+        </FormColumn>
+        <FormColumn>
+          <fieldset>
+            <legend>Work address</legend>
+            <FormRow>
+              <FormColumn>
+                <TextInput label="Address line 1" name="work-1" />
+              </FormColumn>
+            </FormRow>
+            <FormRow>
+              <FormColumn>
+                <TextInput label="Address line 2" name="work-2" />
+              </FormColumn>
+            </FormRow>
+            <FormRow>
+              <FormColumn>
+                <TextInput label="City" name="work-city" />
+              </FormColumn>
+              <FormColumn>
+                <TextInput label="Postcode" name="work-postcode" />
+              </FormColumn>
+            </FormRow>
+          </fieldset>
+        </FormColumn>
+      </FormRow>
+      <FormRow>
+        <FormColumn>
+          <Button type="submit">Save details</Button>
+        </FormColumn>
+      </FormRow>
+    </form>
+  )
+}
+
+Spike.storyName = 'Spike'
