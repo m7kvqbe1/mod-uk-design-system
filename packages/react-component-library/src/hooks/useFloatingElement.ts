@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 import { isNil } from 'lodash'
 import type { VirtualElement, Placement, Strategy } from '@floating-ui/core'
 import {
@@ -10,10 +10,9 @@ import {
 
 export const useFloatingElement = (
   strategy: Strategy = 'fixed',
-  arrowElementRef?:
-    | React.MutableRefObject<HTMLElement | undefined>
-    | HTMLElement,
-  allowedPlacements?: Placement[]
+  allowedPlacements?: Placement[],
+  arrowElementRef?: React.MutableRefObject<HTMLElement | undefined>,
+  externalTargetElementRef?: React.MutableRefObject<HTMLElement | undefined>
 ): {
   placement: Placement
   targetElementRef: (node: Element | VirtualElement | null) => void
@@ -41,6 +40,12 @@ export const useFloatingElement = (
         }),
     ],
   })
+
+  useLayoutEffect(() => {
+    if (externalTargetElementRef) {
+      targetElementRef(externalTargetElementRef.current)
+    }
+  }, [externalTargetElementRef, targetElementRef])
 
   const { arrow: { x: arrowX, y: arrowY } = {} } = middlewareData
 

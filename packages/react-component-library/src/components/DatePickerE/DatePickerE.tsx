@@ -1,6 +1,6 @@
 import { IconEvent } from '@defencedigital/icon-library'
 import { isValid } from 'date-fns'
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import type { Placement } from '@floating-ui/core'
 import { DayModifiers, DayPickerProps } from 'react-day-picker'
 
@@ -26,7 +26,6 @@ import { useFocus } from '../../hooks/useFocus'
 import { useInput } from './useInput'
 import { useRangeHoverOrFocusDate } from './useRangeHoverOrFocusDate'
 import { useSelection } from './useSelection'
-import { useStatefulRef } from '../../hooks/useStatefulRef'
 
 declare module 'react-day-picker' {
   // eslint-disable-next-line no-shadow
@@ -155,12 +154,13 @@ export const DatePickerE: React.FC<DatePickerEProps> = ({
   isOpen,
   disabledDays,
   initialMonth,
-  placement = 'bottom-start',
+  placement: _0,
   onBlur,
   // Formik can pass value – drop it to stop it being forwarded to the input
-  value: _,
+  value: _1,
   ...rest
 }) => {
+  const floatingBoxTarget = useRef()
   const id = useExternalId(externalId)
   const titleId = `datepicker-title-${useExternalId()}`
   const contentId = `datepicker-contentId-${useExternalId()}`
@@ -191,7 +191,6 @@ export const DatePickerE: React.FC<DatePickerEProps> = ({
   const [hasError, setHasError] = useState<boolean>(
     isInvalid || hasClass(className, 'is-invalid')
   )
-  const [floatingBoxTarget, setFloatingBoxTarget] = useStatefulRef()
 
   const {
     rangeHoverOrFocusDate,
@@ -225,7 +224,7 @@ export const DatePickerE: React.FC<DatePickerEProps> = ({
         className={className}
         data-testid="datepicker-input-wrapper"
         $isDisabled={isDisabled}
-        ref={setFloatingBoxTarget}
+        ref={floatingBoxTarget}
       >
         <StyledOuterWrapper
           data-testid="datepicker-outer-wrapper"
@@ -290,7 +289,7 @@ export const DatePickerE: React.FC<DatePickerEProps> = ({
       <StyledFloatingBox
         isVisible={open}
         allowedPlacements={[]}
-        targetElement={floatingBoxTarget}
+        externalTargetElementRef={floatingBoxTarget}
         role="dialog"
         aria-modal
         aria-labelledby={titleId}

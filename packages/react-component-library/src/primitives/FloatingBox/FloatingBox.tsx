@@ -30,7 +30,7 @@ export interface FloatingBoxWithExternalTargetProps
   /**
    * External element that the floating box should attach to.
    */
-  targetElement?: Element
+  externalTargetElementRef?: React.MutableRefObject<HTMLElement | undefined>
 }
 
 export interface FloatingBoxWithEmbeddedTargetProps
@@ -40,7 +40,7 @@ export interface FloatingBoxWithEmbeddedTargetProps
    * box should attach to.
    */
   renderTarget?: React.ReactElement
-  targetElement?: never
+  externalTargetElementRef?: never
 }
 
 export type FloatingBoxProps =
@@ -61,7 +61,7 @@ export const FloatingBox: React.FC<FloatingBoxProps> = ({
   onMouseLeave,
   children,
   renderTarget,
-  targetElement, // TODO: how is this different to renderTarget?
+  externalTargetElementRef,
   isVisible,
   allowedPlacements,
   ...rest
@@ -69,7 +69,12 @@ export const FloatingBox: React.FC<FloatingBoxProps> = ({
   const arrowElementRef = useRef(null)
 
   const { placement, targetElementRef, floatingElementRef, styles } =
-    useFloatingElement(undefined, arrowElementRef, allowedPlacements)
+    useFloatingElement(
+      undefined,
+      allowedPlacements,
+      arrowElementRef,
+      externalTargetElementRef
+    )
 
   return (
     <>
