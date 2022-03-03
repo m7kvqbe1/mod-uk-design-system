@@ -14,17 +14,29 @@ function clickDocsButtonOnFirstLoad() {
   window.removeEventListener('load', clickDocsButtonOnFirstLoad)
 
   try {
-    const docsButtonSelector = window.parent.document.evaluate(
-      "//button[contains(., 'Docs')]",
-      window.parent.document,
-      null,
-      XPathResult.ANY_TYPE,
-      null
-    )
+    const toolbar = window.parent.document.querySelector(
+      'button[title="Zoom in"]'
+    ).parentElement
 
-    const button = docsButtonSelector.iterateNext()
+    const observer = new MutationObserver(() => {
+      observer.disconnect()
 
-    button.click()
+      setTimeout(() => {
+        const button = window.parent.document
+          .evaluate(
+            "//button[contains(., 'Docs')]",
+            window.parent.document,
+            null,
+            XPathResult.ANY_TYPE,
+            null
+          )
+          .iterateNext()
+
+        button.click()
+      })
+    })
+
+    observer.observe(toolbar, { subtree: true, childList: true })
   } catch (error) {
     console.warn('Failed to set default Storybook tab', error)
   }

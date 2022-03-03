@@ -10,7 +10,9 @@ describe('ContextMenu', () => {
       before(() => {
         cy.visit('/iframe.html?id=context-menu--default&viewMode=docs')
 
-        cy.get(selectors.contextMenu.target).eq(0).rightclick()
+        cy.get(selectors.contextMenu.target)
+          .eq(0)
+          .rightclick({ scrollBehavior: false })
       })
 
       it('should show the Context Menu unobscured', () => {
