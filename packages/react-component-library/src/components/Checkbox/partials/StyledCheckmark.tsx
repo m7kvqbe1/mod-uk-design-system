@@ -4,7 +4,7 @@ import { selectors } from '@defencedigital/design-tokens'
 
 import { StyledCheckbox } from './StyledCheckbox'
 
-const { animation, color } = selectors
+const { color } = selectors
 
 interface StyledCheckmarkProps {
   $hasContainer?: boolean
@@ -14,7 +14,6 @@ function getCheckboxActiveStyle() {
   return css`
     &::before {
       box-shadow: 0 0 0 2px ${color('action', '500')};
-      transition: all ${animation('default')};
     }
   `
 }
