@@ -13,8 +13,8 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
         type="checkbox"
         ref={ref}
         partials={{
-          root: <StyledCheckbox />,
-          checkmark: <StyledCheckmark />,
+          Root: StyledCheckbox,
+          Checkmark: StyledCheckmark,
         }}
         {...props}
       />

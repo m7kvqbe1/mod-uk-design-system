@@ -29,7 +29,7 @@ export const CheckboxRadioBase = React.forwardRef<
       value,
       variant = CHECKBOX_RADIO_VARIANT.DEFAULT,
       type,
-      partials: { root: rootPartial, checkmark: checkmarkPartial },
+      partials: { Root, Checkmark },
       ...rest
     },
     ref
@@ -93,20 +93,18 @@ export const CheckboxRadioBase = React.forwardRef<
 
     return (
       <StyledWrapper>
-        {React.cloneElement(
-          rootPartial,
-          {
-            className,
-            role: type,
-            'aria-checked': isChecked,
-            $isDisabled: isDisabled,
-            $hasContainer: hasContainer,
-            $isInvalid: isInvalid,
-            $isChecked: isChecked,
-            onClick: handleClick,
-            onKeyUp: handleKeyUp,
-            'data-testid': type,
-          },
+        <Root
+          className={className}
+          role={type}
+          aria-checked={isChecked}
+          $isDisabled={isDisabled}
+          $hasContainer={hasContainer}
+          $isInvalid={isInvalid}
+          $isChecked={isChecked}
+          onClick={handleClick}
+          onKeyUp={handleKeyUp}
+          data-testid={type}
+        >
           <StyledInnerWrapper $hasContainer={hasContainer}>
             <StyledLabel
               $hasContainer={hasContainer}
@@ -127,9 +125,7 @@ export const CheckboxRadioBase = React.forwardRef<
                 data-testid={`${type}-input`}
                 {...rest}
               />
-              {React.cloneElement(checkmarkPartial, {
-                $hasContainer: hasContainer,
-              })}
+              <Checkmark $hasContainer={hasContainer} />
               {label}
               {description && (
                 <StyledDescription data-testid={`${type}-description`}>
@@ -138,7 +134,7 @@ export const CheckboxRadioBase = React.forwardRef<
               )}
             </StyledLabel>
           </StyledInnerWrapper>
-        )}
+        </Root>
       </StyledWrapper>
     )
   }

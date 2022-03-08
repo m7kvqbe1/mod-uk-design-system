@@ -2,6 +2,18 @@ import { ComponentWithClass } from '../../common/ComponentWithClass'
 import { InputValidationProps } from '../../common/InputValidationProps'
 import { CheckboxRadioVariantType } from './types'
 
+export interface CheckboxRootProps extends React.HTMLAttributes<HTMLElement> {
+  $hasContainer?: boolean
+  $isDisabled?: boolean
+  $isInvalid?: boolean
+  $isChecked?: boolean
+  className?: string
+}
+
+export interface CheckmarkProps {
+  $hasContainer?: boolean
+}
+
 export interface CheckboxRadioBaseProps
   extends ComponentWithClass,
     InputValidationProps {
@@ -52,5 +64,8 @@ export interface CheckboxRadioBaseProps
   /**
    * Custom implementations of presentational styled-components.
    */
-  partials: Record<'root' | 'checkmark', React.ReactElement>
+  partials: {
+    Root: React.ComponentType<CheckboxRootProps>
+    Checkmark: React.ComponentType<CheckmarkProps>
+  }
 }

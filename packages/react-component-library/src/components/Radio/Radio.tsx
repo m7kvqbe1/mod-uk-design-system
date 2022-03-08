@@ -13,8 +13,8 @@ export const Radio = React.forwardRef<HTMLInputElement, RadioProps>(
         type="radio"
         ref={ref}
         partials={{
-          root: <StyledRadio />,
-          checkmark: <StyledCheckmark />,
+          Root: StyledRadio,
+          Checkmark: StyledCheckmark,
         }}
         {...props}
       />
