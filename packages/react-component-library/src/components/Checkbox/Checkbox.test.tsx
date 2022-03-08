@@ -136,27 +136,6 @@ describe('Checkbox', () => {
     })
   })
 
-  describe('when a field has checked prop set', () => {
-    beforeEach(() => {
-      label = 'My Label 1'
-      field.value = 'false'
-
-      checkbox = render(
-        <Checkbox
-          name={field.name}
-          value={field.value}
-          label={label}
-          onChange={field.onChange}
-          checked
-        />
-      )
-    })
-
-    it('should initially render as checked', () => {
-      expect(checkbox.getByTestId('checkbox-input')).toBeChecked()
-    })
-  })
-
   describe('when an additional class it provided', () => {
     beforeEach(() => {
       checkbox = render(
