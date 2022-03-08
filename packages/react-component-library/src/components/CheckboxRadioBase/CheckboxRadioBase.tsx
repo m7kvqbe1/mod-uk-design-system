@@ -53,10 +53,13 @@ export const CheckboxRadioBase = React.forwardRef<
         }
       }
 
-      document.addEventListener('_radio:selected', handleSelected)
+      document.addEventListener('_mod-uk-ds:radio:selected', handleSelected)
 
       return () => {
-        document.removeEventListener('_radio:selected', handleSelected)
+        document.removeEventListener(
+          '_mod-uk-ds:radio:selected',
+          handleSelected
+        )
       }
     }, [type, name])
 
@@ -74,7 +77,7 @@ export const CheckboxRadioBase = React.forwardRef<
       setIsChecked(!isChecked)
 
       if (type === 'radio') {
-        const event = new CustomEvent('_radio:selected', {
+        const event = new CustomEvent('_mod-uk-ds:radio:selected', {
           detail: { ref: localRef },
         })
 
