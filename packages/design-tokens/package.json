@@ -22,7 +22,7 @@
     "build:dict": "node ./build-dictionary.js",
     "build:cjs": "webpack --mode production --config=webpack/prod.js",
     "types": "tsc --emitDeclarationOnly --declarationMap --declaration --noEmit false --allowJs false --outDir dist/types",
-    "prepare": "yarn build",
+    "prepare": "npm run build",
     "test": "jest",
     "lint-staged": "lint-staged",
     "lint": "eslint src/* --ext .js --ext .jsx --ext .ts --ext .tsx --ext .json --no-error-on-unmatched-pattern"
@@ -42,7 +42,7 @@
     "@testing-library/react": "^12.0.0",
     "@types/jest": "^27.4.1",
     "@types/lodash": "^4.14.161",
-    "@types/react": "^17.0.38",
+    "@types/react": "^17.0.40",
     "@types/styled-components": "^5.1.24",
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^4.0.0",

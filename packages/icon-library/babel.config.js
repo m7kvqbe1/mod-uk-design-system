@@ -23,5 +23,5 @@ module.exports = {
       ],
     },
   },
-  plugins: ['@babel/plugin-transform-runtime'],
+  plugins: ['@babel/plugin-transform-runtime', 'react-inline-svg-unique-id'],
 }
