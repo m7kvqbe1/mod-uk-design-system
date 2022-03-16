@@ -22,7 +22,7 @@
     "build:dict": "node ./build-dictionary.js",
     "build:cjs": "webpack --mode production --config=webpack/prod.js",
     "types": "tsc --emitDeclarationOnly --declarationMap --declaration --noEmit false --allowJs false --outDir dist/types",
-    "prepare": "npm run build",
+    "prepack": "npm run build",
     "test": "jest",
     "lint-staged": "lint-staged",
     "lint": "eslint src/* --ext .js --ext .jsx --ext .ts --ext .tsx --ext .json --no-error-on-unmatched-pattern"
