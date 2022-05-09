@@ -48,14 +48,14 @@ export const StyledFieldset = styled.fieldset<StyledFieldsetProps>`
 
   ${({ $type }) =>
     $type === 'block' &&
-    `
-    &&& {
-      display: flex;
-      padding: 0;
-      border: none;
-      margin: 32px 0;
-    }
-  `}
+    css`
+      &&& {
+        display: flex;
+        padding: 0;
+        border: none;
+        margin: 32px 0;
+      }
+    `}
 
   ${StyledWrapper} {
     margin-top: -1px;

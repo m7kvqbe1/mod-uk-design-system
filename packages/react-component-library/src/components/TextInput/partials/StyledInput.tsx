@@ -17,14 +17,17 @@ export const TEXT_INPUT_INPUT_HEIGHT = {
 
 function removeAutoFillBackground() {
   return css`
+    /* stylelint-disable property-no-vendor-prefix */
     &:-webkit-autofill,
     &:-webkit-autofill:hover,
     &:-webkit-autofill:focus,
     &:-webkit-autofill:active {
       transition: background-color 9999s ease-out;
     }
+    /* stylelint-enable property-no-vendor-prefix */
 
-    filter: none; // Firefox
+    // Firefox
+    filter: none;
   `
 }
 
