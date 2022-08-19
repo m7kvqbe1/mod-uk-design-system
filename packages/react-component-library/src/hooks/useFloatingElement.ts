@@ -10,6 +10,7 @@ export const useFloatingElement = (
   externalTargetElement: Element | VirtualElement | null = null
 ): {
   targetElementRef: Dispatch<SetStateAction<Element | null>>
+  floatingElement: HTMLElement | null
   floatingElementRef: Dispatch<SetStateAction<HTMLElement | null>>
   arrowElementRef: Dispatch<SetStateAction<HTMLElement | null>>
   styles: { [key: string]: React.CSSProperties }
@@ -39,6 +40,7 @@ export const useFloatingElement = (
 
   return {
     targetElementRef,
+    floatingElement,
     floatingElementRef,
     arrowElementRef,
     styles,
