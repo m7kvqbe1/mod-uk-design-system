@@ -11,7 +11,7 @@ const { color, fontSize } = selectors
 
 export const StyledText = styled.span<StyledTextProps>`
   display: block;
-  color: ${color('neutral', '400')};
+  color: #eeeeee;
   font-weight: 600;
   font-size: ${fontSize('base')};
   white-space: nowrap;

@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { userEvent, waitFor, within } from '@storybook/testing-library'
 import styled from 'styled-components'
 
 import { IconEdit, IconDelete, IconAdd } from '@defencedigital/icon-library'
@@ -60,7 +61,7 @@ export const WithIcons: ComponentStory<typeof ContextMenu> = (props) => {
 
   return (
     <>
-      <ClickArea ref={ref}>
+      <ClickArea ref={ref} data-testid="storybook-context-menu-target">
         {props.clickType === 'left' ? 'Click on me' : 'Right click on me'}
       </ClickArea>
       <ContextMenu {...props} attachedToRef={ref}>
@@ -96,3 +97,61 @@ export const WithIcons: ComponentStory<typeof ContextMenu> = (props) => {
 }
 
 WithIcons.storyName = 'With icons'
+
+export const Open: ComponentStory<typeof ContextMenu> = (props) => {
+  const ref = useRef<HTMLDivElement>(null)
+
+  return (
+    <>
+      <ClickArea ref={ref} data-testid="storybook-context-menu-target">
+        Click on me
+      </ClickArea>
+      <ContextMenu {...props} attachedToRef={ref} clickType="left">
+        <ContextMenuItem
+          icon={<IconEdit />}
+          link={<Link href="/edit">Edit</Link>}
+        />
+        <ContextMenuItem
+          icon={<IconDelete />}
+          link={<Link href="/delete">Delete</Link>}
+        />
+        <ContextMenuItem link={<Link href="/delete">Action</Link>} />
+        <ContextMenuDivider />
+        <ContextMenuItem
+          icon={<IconAdd />}
+          link={<Link href="/add">Add</Link>}
+        />
+        <ContextMenuDivider />
+        <ContextMenuItem
+          link={<Link href="/something-else">Do something else</Link>}
+        />
+        <ContextMenuDivider />
+        <ContextMenuItem
+          link={
+            <Link href="/something-else">
+              This is too much text to put into a context menu item
+            </Link>
+          }
+        />
+      </ContextMenu>
+    </>
+  )
+}
+
+Open.storyName = 'Open'
+Open.play = async ({ canvasElement }) => {
+  // Starts querying the component from its root
+  const canvas = within(canvasElement)
+
+  // Looks up the input and fills it.
+  const clickArea = canvas.getByText('Click on me')
+  await userEvent.click(clickArea)
+  await canvas.findByRole('menu')
+
+  // await waitFor(async () => {
+  //   await userEvent.hover(canvas.getByLabelText('Email error'))
+  // })
+}
+Open.parameters = {
+  docs: { disable: true },
+}

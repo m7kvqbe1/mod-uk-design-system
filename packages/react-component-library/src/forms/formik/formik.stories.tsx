@@ -66,6 +66,7 @@ const Example: React.FC<{ initialValues: FormValues }> = ({
           handleSubmit,
           isSubmitting,
           setFieldValue,
+          setFieldTouched,
         }) => (
           <form onSubmit={handleSubmit}>
             <SectionDivider title="Example Form" />
@@ -255,6 +256,7 @@ const Example: React.FC<{ initialValues: FormValues }> = ({
             </FormikField>
             <FormikField name="exampleAutocomplete">
               {({ field: { value }, meta }: FieldProps) => {
+                console.log(meta.touched)
                 return (
                   <Field
                     hintText="Example hint text."
@@ -265,6 +267,7 @@ const Example: React.FC<{ initialValues: FormValues }> = ({
                       label="Example autocomplete"
                       onChange={(newValue: string | null) => {
                         setFieldValue('exampleAutocomplete', newValue)
+                        setFieldTouched('exampleAutocomplete')
                       }}
                     >
                       <AutocompleteOption value="one">One</AutocompleteOption>

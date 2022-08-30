@@ -50,6 +50,33 @@ Default.args = {
   label: 'Example label',
 }
 
+export const Example: ComponentStory<typeof Dropdown> = () => {
+  return (
+    <StyledWrapper>
+      <Dropdown
+        label="Test"
+        options={[
+          {
+            value: 'option',
+            label: 'Option',
+            rightContent: (
+              <a
+                href="link-to-transcript"
+                onClick={(event) => {
+                  event.stopPropagation()
+                }}
+              >
+                transcript
+              </a>
+            ),
+          },
+        ]}
+      />
+    </StyledWrapper>
+  )
+}
+Example.args = {}
+
 export const Open = Template.bind({})
 Open.storyName = 'Open'
 Open.args = {

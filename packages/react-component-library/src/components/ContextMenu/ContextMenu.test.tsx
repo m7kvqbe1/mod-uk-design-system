@@ -1,3 +1,4 @@
+import { axe, toHaveNoViolations } from 'jest-axe'
 import React, { useRef } from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { RenderResult, render, act } from '@testing-library/react'
@@ -7,6 +8,8 @@ import userEvent from '@testing-library/user-event'
 
 import { ContextMenu, ContextMenuItem, ContextMenuDivider } from '.'
 import { Link } from '../Link'
+
+expect.extend(toHaveNoViolations)
 
 const CustomLink = ({ children, onClick }: any) => {
   return (
@@ -147,7 +150,7 @@ describe('ContextMenu', () => {
 
       wrapper = render(<ContextExample />)
 
-      userEvent.pointer([
+      return userEvent.pointer([
         { keys: '[MouseRight]', target: wrapper.getByText('Right click me!') },
       ])
     })
@@ -179,7 +182,7 @@ describe('ContextMenu', () => {
   })
 
   describe('With custom link and open', () => {
-    beforeEach(() => {
+    beforeEach(async () => {
       onClickSpy = jest.fn()
 
       const ContextExample = () => {
@@ -199,18 +202,14 @@ describe('ContextMenu', () => {
 
       wrapper = render(<ContextExample />)
 
-      act(() => {
-        userEvent.pointer([
-          {
-            keys: '[MouseRight]',
-            target: wrapper.getByText('Right click me!'),
-          },
-        ])
-      })
+      await userEvent.pointer([
+        {
+          keys: '[MouseRight]',
+          target: wrapper.getByText('Right click me!'),
+        },
+      ])
 
-      act(() => {
-        wrapper.getByTestId('context-menu-custom-link').click()
-      })
+      return userEvent.click(wrapper.getByTestId('context-menu-custom-link'))
     })
 
     it('invokes the supplied onClick callback when the custom link is clicked', () => {
@@ -238,7 +237,7 @@ describe('ContextMenu', () => {
 
       wrapper = render(<ContextExample />)
 
-      userEvent.pointer([
+      return userEvent.pointer([
         { keys: '[MouseRight]', target: wrapper.getByText('Right click me!') },
       ])
     })
@@ -276,9 +275,15 @@ describe('ContextMenu', () => {
 
       wrapper = render(<ContextExample />)
 
-      userEvent.pointer([
+      return userEvent.pointer([
         { keys: '[MouseRight]', target: wrapper.getByText('Right click me!') },
       ])
+    })
+
+    it('passes accessibility checks', async () => {
+      const results = await axe(wrapper.container)
+
+      expect(results).toHaveNoViolations()
     })
 
     it('renders the dividers', () => {
