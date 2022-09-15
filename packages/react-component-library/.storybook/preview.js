@@ -32,7 +32,7 @@ function clickDocsButtonOnFirstLoad() {
   }
 }
 
-window.addEventListener('load', clickDocsButtonOnFirstLoad)
+// window.addEventListener('load', clickDocsButtonOnFirstLoad)
 
 export const parameters = {
   jsx: {
